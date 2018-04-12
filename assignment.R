@@ -43,3 +43,36 @@ predictions <- predict(modFit, myValidation, type = "class")
 
 ## Use confusion Matrix to test results
 confusionMatrix(predictions, myValidation$classe)
+## Result
+## Confusion Matrix and Statistics
+##
+##          Reference
+## Prediction    A    B    C    D    E
+##         A 2231    0    0    0    0
+##         B    1 1518    3    0    0
+##         C    0    0 1364    7    0
+##         D    0    0    1 1278    1
+##         E    0    0    0    1 1441
+##
+## Overall Statistics
+##                                        
+##               Accuracy : 0.9982        
+##                 95% CI : (0.997, 0.999)
+##    No Information Rate : 0.2845        
+##    P-Value [Acc > NIR] : < 2.2e-16     
+##                                        
+##                  Kappa : 0.9977        
+## Mcnemar's Test P-Value : NA            
+##
+## Statistics by Class:
+##
+##                     Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9996   1.0000   0.9971   0.9938   0.9993
+## Specificity            1.0000   0.9994   0.9989   0.9997   0.9998
+## Pos Pred Value         1.0000   0.9974   0.9949   0.9984   0.9993
+## Neg Pred Value         0.9998   1.0000   0.9994   0.9988   0.9998
+## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
+## Detection Rate         0.2843   0.1935   0.1738   0.1629   0.1837
+## Detection Prevalence   0.2843   0.1940   0.1747   0.1631   0.1838
+## Balanced Accuracy      0.9998   0.9997   0.9980   0.9967   0.9996
+                

@@ -56,10 +56,17 @@ myValidation <- myValidation[clean1]
 testing <- testing[clean2]
 ```
 
+Use Decision Tree for prediction
+```
+modFitDT <- rpart(classe ~., data=myTraining, method="class")
+predictionDT <- predict(modFitDT, newdata=myValidation, type = "class")
+```
+
+
 Use Random Forests for prediction
 ```
-modFit <- randomForest(classe ~. , data=myTraining)
-predictionRF <- predict(modFit, myValidation, type = "class")
+modFitRF <- randomForest(classe ~. , data=myTraining)
+predictionRF <- predict(modFitRF, newdata=myValidation)
 ```
 
 Use confusion Matrix to test results

@@ -1,6 +1,8 @@
 ---
 output: html_document
 ---
+# Overview
+The main goal of the project is to predict the manner in which 6 participants performed some exercise which represents by the variable "classe" in the data set. The machine learning algorithm described here will be used for predict 20 test cases in the test data.
 
 Load required packages
 ```

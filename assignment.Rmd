@@ -59,12 +59,12 @@ testing <- testing[clean2]
 Use Random Forests for prediction
 ```
 modFit <- randomForest(classe ~. , data=myTraining)
-predictions <- predict(modFit, myValidation, type = "class")
+predictionRF <- predict(modFit, myValidation, type = "class")
 ```
 
 Use confusion Matrix to test results
 ```
-caret::confusionMatrix(predictions, myValidation$classe)
+caret::confusionMatrix(predictionRF, myValidation$classe)
 ```
 
 ## Result
@@ -99,4 +99,10 @@ Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
 Detection Rate         0.2843   0.1935   0.1738   0.1629   0.1837
 Detection Prevalence   0.2843   0.1940   0.1747   0.1631   0.1838
 Balanced Accuracy      0.9998   0.9997   0.9980   0.9967   0.9996
+```
+
+Apply the selected model to the test data
+```
+predictResult <- predict(predictionRF, newdata=testing)
+predictResult
 ```

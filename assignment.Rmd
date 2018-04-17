@@ -31,7 +31,7 @@ inTrain <- createDataPartition(y=training$classe, p=0.6, list=FALSE)
 myTraining <- training[inTrain, ]; 
 myValidation <- training[-inTrain, ]
 ```
-Tidy up the training data by removing zero-variance predicators and non-predictive variables like ID, user_name and timestamp for the records.
+Tidy up the training data by removing zero-variance predictors and non-predictive variables like ID, user_name and timestamp for the records.
 ```
 myNearZero <- nearZeroVar(myTraining, saveMetrics=TRUE)
 myTraining <- myTraining[!myNearZero$nzv]

@@ -1,9 +1,13 @@
 ---
 output: html_document
 ---
-# Overview
+##Overview
 The main goal of the project is to predict the manner in which 6 participants performed some exercise which represents by the variable "classe" in the data set. The machine learning algorithm described here will be used for predict 20 test cases in the test data.
 
+##Model Selection
+I am going to examine the result and get satisfy accuracy by using "Decision Tree" and "Random Forest". The reason for choosing these two models is that they have generally good prediction performance. Below is the procedure I used and the result. 
+
+##Process
 Load required packages
 ```
 library(caret)
@@ -12,12 +16,10 @@ library(rpart)
 library(rpart.plot)
 library(RColorBrewer)
 ```
-
 Set seed
 ```
 set.seed(414)
 ```
-
 Load data
 ```
 trainUrl <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
@@ -37,7 +39,6 @@ myNearZero <- nearZeroVar(myTraining, saveMetrics=TRUE)
 myTraining <- myTraining[!myNearZero$nzv]
 myTraining <- myTraining[, -(1:6)]
 ```
-
 Remove Column that have more than 60% missing value
 ```
 rmCol <- sapply(colnames(myTraining), function(x) if(sum(is.na(myTraining[, x])) > 0.50*nrow(myTraining)) { return(TRUE)
@@ -47,7 +48,6 @@ rmCol <- sapply(colnames(myTraining), function(x) if(sum(is.na(myTraining[, x]))
 )
 myTraining <- myTraining[, !rmCol]
 ```
-
 Tidy up the validation and test data
 ```
 clean1 <- colnames(myTraining)
@@ -55,27 +55,63 @@ clean2 <- clean1[-53]
 myValidation <- myValidation[clean1]
 testing <- testing[clean2]
 ```
-
 Use Decision Tree for prediction
 ```
 modFitDT <- rpart(classe ~., data=myTraining, method="class")
 predictionDT <- predict(modFitDT, newdata=myValidation, type = "class")
 ```
-
-
 Use Random Forests for prediction
 ```
 modFitRF <- randomForest(classe ~. , data=myTraining)
 predictionRF <- predict(modFitRF, newdata=myValidation)
 ```
 
+
+##Result
+Use confusion Matrix to test results
+```
+caret::confusionMatrix(predictionDT, myValidation$classe)
+```
+####Confusion Matrix and Statistics for Decision Tree
+```
+Confusion Matrix and Statistics
+
+          Reference
+Prediction    A    B    C    D    E
+         A 2037  324   73   99   61
+         B   56  798  107  117  132
+         C   40  179 1088  189  111
+         D   66  177   85  792  128
+         E   33   40   15   89 1010
+
+Overall Statistics
+                                          
+               Accuracy : 0.7297          
+                 95% CI : (0.7197, 0.7395)
+    No Information Rate : 0.2845          
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.6563          
+ Mcnemar's Test P-Value : < 2.2e-16       
+
+Statistics by Class:
+
+                     Class: A Class: B Class: C Class: D Class: E
+Sensitivity            0.9126   0.5257   0.7953   0.6159   0.7004
+Specificity            0.9008   0.9349   0.9199   0.9305   0.9724
+Pos Pred Value         0.7853   0.6595   0.6770   0.6346   0.8509
+Neg Pred Value         0.9629   0.8915   0.9551   0.9251   0.9351
+Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
+Detection Rate         0.2596   0.1017   0.1387   0.1009   0.1287
+Detection Prevalence   0.3306   0.1542   0.2048   0.1591   0.1513
+Balanced Accuracy      0.9067   0.7303   0.8576   0.7732   0.8364
+```
+
 Use confusion Matrix to test results
 ```
 caret::confusionMatrix(predictionRF, myValidation$classe)
 ```
-
-## Result
-### Confusion Matrix and Statistics
+####Confusion Matrix and Statistics for Random Forest
 ```
                 Reference
 Prediction    A    B    C    D    E
@@ -108,7 +144,10 @@ Detection Prevalence   0.2843   0.1940   0.1747   0.1631   0.1838
 Balanced Accuracy      0.9998   0.9997   0.9980   0.9967   0.9996
 ```
 
-Apply the selected model to the test data
+####Analysis
+The above shows that using Random Forest would result in higher accuracy and Kappa. So random forest model will be used for predict the outcomes of the test data.
+
+##Apply the selected model to the test data
 ```
 predictResult <- predict(predictionRF, newdata=testing)
 predictResult

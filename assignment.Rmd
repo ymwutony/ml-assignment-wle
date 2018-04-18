@@ -1,13 +1,13 @@
 ---
 output: html_document
 ---
-##Overview
+## Overview
 The main goal of the project is to predict the manner in which 6 participants performed some exercise which represents by the variable "classe" in the data set. The machine learning algorithm described here will be used for predict 20 test cases in the test data.
 
-##Model Selection
+## Model Selection
 I am going to examine the result and get satisfy accuracy by using "Decision Tree" and "Random Forest". The reason for choosing these two models is that they have generally good prediction performance. Below is the procedure I used and the result. 
 
-##Process
+## Process
 Load required packages
 ```
 library(caret)
@@ -67,12 +67,12 @@ predictionRF <- predict(modFitRF, newdata=myValidation)
 ```
 
 
-##Result
+## Result
 Use confusion Matrix to test results
 ```
 caret::confusionMatrix(predictionDT, myValidation$classe)
 ```
-####Confusion Matrix and Statistics for Decision Tree
+#### Confusion Matrix and Statistics for Decision Tree
 ```
 Confusion Matrix and Statistics
 
@@ -111,7 +111,7 @@ Use confusion Matrix to test results
 ```
 caret::confusionMatrix(predictionRF, myValidation$classe)
 ```
-####Confusion Matrix and Statistics for Random Forest
+#### Confusion Matrix and Statistics for Random Forest
 ```
                 Reference
 Prediction    A    B    C    D    E
@@ -144,10 +144,10 @@ Detection Prevalence   0.2843   0.1940   0.1747   0.1631   0.1838
 Balanced Accuracy      0.9998   0.9997   0.9980   0.9967   0.9996
 ```
 
-####Analysis
+#### Analysis
 The above shows that using Random Forest would result in higher accuracy and Kappa. So random forest model will be used for predict the outcomes of the test data.
 
-##Apply the selected model to the test data
+## Apply the selected model to the test data
 ```
 predictResult <- predict(predictionRF, newdata=testing)
 predictResult
